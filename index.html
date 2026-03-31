@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reading Birds Store</title>
+
+<style>
+body { font-family: Arial; margin:0; background:#f5f5f5; }
+header { background:#0099cc; color:#fff; padding:15px; text-align:center; }
+
+.search-box, .filter-box {
+  margin:10px;
+  text-align:center;
+}
+
+input, select {
+  padding:8px;
+  width:80%;
+  max-width:300px;
+  margin:5px;
+}
+
+.products {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+.product {
+  background:#fff;
+  border-radius:10px;
+  padding:10px;
+  margin:10px;
+  width:200px;
+  text-align:center;
+  box-shadow:0 2px 5px rgba(0,0,0,0.2);
+}
+
+.product img {
+  width:100%;
+  height:150px;
+  object-fit:cover;
+}
+
+button {
+  background:#ff6600;
+  color:#fff;
+  border:none;
+  padding:8px;
+  cursor:pointer;
+  border-radius:5px;
+}
+
+.form-box {
+  background:#fff;
+  padding:15px;
+  margin:20px;
+  border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Reading Birds 📚</h1>
+</header>
+
+<div class="search-box">
+  <input type="text" id="search" placeholder="Search books..." onkeyup="filterProducts()">
+</div>
+
+<div class="filter-box">
+  <select id="category" onchange="filterProducts()">
+    <option value="all">All Categories</option>
+    <option value="education">Education</option>
+    <option value="story">Story</option>
+    <option value="kids">Kids</option>
+  </select>
+</div>
+
+<div class="products" id="productList">
+
+<!-- PRODUCT -->
+<div class="product" data-name="Math Book" data-category="education">
+  <img src="https://via.placeholder.com/200">
+  <h3>Math Book</h3>
+  <p>₹200</p>
+  <input type="number" id="qty1" value="1" min="1">
+  <button onclick="orderNow('Math Book',200,'qty1')">Buy</button>
+</div>
+
+<div class="product" data-name="Story Book" data-category="story">
+  <img src="https://via.placeholder.com/200">
+  <h3>Story Book</h3>
+  <p>₹150</p>
+  <input type="number" id="qty2" value="1" min="1">
+  <button onclick="orderNow('Story Book',150,'qty2')">Buy</button>
+</div>
+
+</div>
+
+<div class="form-box">
+  <h3>Customer Details</h3>
+  <input type="text" id="custName" placeholder="Your Name"><br>
+  <input type="text" id="custAddress" placeholder="Your Address"><br>
+</div>
+
+<script>
+function filterProducts() {
+  let search = document.getElementById("search").value.toLowerCase();
+  let category = document.getElementById("category").value;
+  let products = document.getElementsByClassName("product");
+
+  for (let i = 0; i < products.length; i++) {
+    let name = products[i].getAttribute("data-name").toLowerCase();
+    let cat = products[i].getAttribute("data-category");
+
+    if ((name.includes(search)) && (category === "all" || cat === category)) {
+      products[i].style.display = "block";
+    } else {
+      products[i].style.display = "none";
+    }
+  }
+}
+
+function orderNow(name, price, qtyId) {
+  let qty = document.getElementById(qtyId).value;
+  let total = qty * price;
+
+  let cname = document.getElementById("custName").value;
+  let caddr = document.getElementById("custAddress").value;
+
+  let phone = "917010178678";
+
+  let msg = "Order Details:%0A" +
+            "Name: " + cname + "%0A" +
+            "Address: " + caddr + "%0A" +
+            "Product: " + name + "%0A" +
+            "Price: ₹" + price + "%0A" +
+            "Qty: " + qty + "%0A" +
+            "Total: ₹" + total;
+
+  window.open("https://wa.me/" + phone + "?text=" + msg, "_blank");
+}
+</script>
+
+</body>
+</html>
